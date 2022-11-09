@@ -21,6 +21,9 @@ public:
     void x(unsigned int x);
     void y(unsigned int y);
 
+    Position& operator=(const Position& );
+    bool operator==(const Position& )const;;
+
 
 };
 

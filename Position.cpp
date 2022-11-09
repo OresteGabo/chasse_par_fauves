@@ -60,3 +60,28 @@ void Position::y(unsigned int y)
     d_y=y;
 }
 
+/**
+ * Operateur d'affectation
+ * @param[in] p la nouvelle position
+ * @return le référance du nouvelle position
+ */
+Position& Position::operator=(const Position& p){
+    if (this != &p) {
+        d_x=p.d_x;
+        d_y=p.d_y;
+    }
+    return *this;
+}
+
+/**
+ * Operateur d'égalité
+ * @param[in] p la position pour effectuer la comparaison
+ * @return vrai si les valeurs des 2 positions sont égaux, ou identiques
+ */
+bool Position::operator==(const Position& p)const{
+    if(this != &p){
+        return p.d_x==this->d_x && p.d_y== this->d_y;
+    }
+    return true;
+}
+
