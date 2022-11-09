@@ -4,6 +4,7 @@
 
 #include "Position.h"
 
+
 /**
  *  Le constructeur par défaut (0,0)
  */
@@ -12,6 +13,7 @@ Position::Position():Position{0,0}{}
 /**
  * Constructeur d'affectation pour d_x,et d_y avec tous la meme valeur
  * @param[in] xy la valeur
+ * @warning xy doi etre superieur ou egal à zero
  */
 Position::Position(unsigned int xy):Position{xy,xy}{}
 
@@ -19,6 +21,7 @@ Position::Position(unsigned int xy):Position{xy,xy}{}
  * Constructeur d'affectation pour d_x,et d_y
  * @param[in] x la valeur de d_x
  * @param[in] y la valeur de d_y
+ * @warning x et y doivent etre superieur ou égal à zero
  */
 Position::Position(unsigned int x, unsigned int y):
         d_x{x},
@@ -47,6 +50,7 @@ unsigned int Position::y()const
  */
 void Position::x(unsigned int x)
 {
+    assert(x > 0);
     d_x=x;
 }
 
@@ -56,6 +60,7 @@ void Position::x(unsigned int x)
  */
 void Position::y(unsigned int y)
 {
+    assert(y > 0);
     d_y=y;
 }
 
@@ -82,5 +87,14 @@ bool Position::operator==(const Position& p)const{
         return p.d_x==this->d_x && p.d_y== this->d_y;
     }
     return true;
+}
+
+/**
+ * Teste la validité du position
+ * @param[in] p la position
+ * @return vrai si la position p.x et p.y sont supérieur à zero
+ */
+bool static valide(const Position& p){
+    return p.x() >=0 && p.y()>=0;
 }
 

@@ -5,6 +5,7 @@
 #ifndef CHASSE_PAR_FAUVES_POSITION_H
 #define CHASSE_PAR_FAUVES_POSITION_H
 
+#include <cassert>
 
 class Position {
 private:
@@ -22,7 +23,8 @@ public:
     void y(unsigned int y);
 
     Position& operator=(const Position& );
-    bool operator==(const Position& )const;;
+    bool operator==(const Position& )const;
+    bool static valide();
 
 
 };
