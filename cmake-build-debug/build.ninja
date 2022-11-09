@@ -61,6 +61,12 @@ build CMakeFiles/chasse_par_fauves.dir/Position.cpp.o: CXX_COMPILER__chasse_par_
   OBJECT_DIR = CMakeFiles/chasse_par_fauves.dir
   OBJECT_FILE_DIR = CMakeFiles/chasse_par_fauves.dir
 
+build CMakeFiles/chasse_par_fauves.dir/Plateau.cpp.o: CXX_COMPILER__chasse_par_fauves_Debug /home/oreste/CLionProjects/chasse_par_fauves/Plateau.cpp || cmake_object_order_depends_target_chasse_par_fauves
+  DEP_FILE = CMakeFiles/chasse_par_fauves.dir/Plateau.cpp.o.d
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles/chasse_par_fauves.dir
+  OBJECT_FILE_DIR = CMakeFiles/chasse_par_fauves.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target chasse_par_fauves
@@ -69,7 +75,7 @@ build CMakeFiles/chasse_par_fauves.dir/Position.cpp.o: CXX_COMPILER__chasse_par_
 #############################################
 # Link the executable chasse_par_fauves
 
-build chasse_par_fauves: CXX_EXECUTABLE_LINKER__chasse_par_fauves_Debug CMakeFiles/chasse_par_fauves.dir/main.cpp.o CMakeFiles/chasse_par_fauves.dir/Position.cpp.o
+build chasse_par_fauves: CXX_EXECUTABLE_LINKER__chasse_par_fauves_Debug CMakeFiles/chasse_par_fauves.dir/main.cpp.o CMakeFiles/chasse_par_fauves.dir/Position.cpp.o CMakeFiles/chasse_par_fauves.dir/Plateau.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/chasse_par_fauves.dir
   POST_BUILD = :

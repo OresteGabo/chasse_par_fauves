@@ -3,7 +3,6 @@
 //
 
 #include "Position.h"
-#include <iostream>
 
 /**
  *  Le constructeur par défaut (0,0)
