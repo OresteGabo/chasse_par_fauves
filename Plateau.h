@@ -7,6 +7,13 @@
 
 
 class Plateau {
+private:
+    unsigned int d_largeur;
+    unsigned int d_longeur;
+public:
+    Plateau(unsigned int ,unsigned int );
+    Plateau(unsigned int );
+    Plateau();
 
 };
 
