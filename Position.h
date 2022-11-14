@@ -6,25 +6,32 @@
 #define CHASSE_PAR_FAUVES_POSITION_H
 
 #include <cassert>
+#include<string>
+#include"constants.cpp"
 
 class Position {
 private:
-    unsigned int d_x;
-    unsigned int d_y;
+    unsigned int d_l;
+    unsigned int d_c;
 
 public:
-    Position(unsigned int x,unsigned int y);
-    Position(unsigned int xy);
+    Position(unsigned int l,unsigned int c);
+    explicit Position(unsigned int xy);
     Position();
 
-    unsigned int x()const;
-    unsigned int y()const;
-    void x(unsigned int x);
-    void y(unsigned int y);
+    unsigned int l()const;
+    unsigned int c()const;
+    void l(unsigned int );
+    void c(unsigned int );
 
     Position& operator=(const Position& );
     bool operator==(const Position& )const;
-    bool static valide();
+    bool static valide(){return true;}
+    std::string toString()const;
+
+    Position operator+(const Directions& direction)const;
+
+
 
 
 };

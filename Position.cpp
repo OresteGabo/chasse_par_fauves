@@ -11,57 +11,57 @@
 Position::Position():Position{0,0}{}
 
 /**
- * Constructeur d'affectation pour d_x,et d_y avec tous la meme valeur
+ * Constructeur d'affectation pour d_l,et d_c avec tous la meme valeur
  * @param[in] xy la valeur
  * @warning xy doi etre superieur ou egal à zero
  */
 Position::Position(unsigned int xy):Position{xy,xy}{}
 
 /**
- * Constructeur d'affectation pour d_x,et d_y
- * @param[in] x la valeur de d_x
- * @param[in] y la valeur de d_y
+ * Constructeur d'affectation pour d_l,et d_c
+ * @param[in] x la valeur de d_l
+ * @param[in] y la valeur de d_c
  * @warning x et y doivent etre superieur ou égal à zero
  */
 Position::Position(unsigned int x, unsigned int y):
-        d_x{x},
-        d_y{y}
+        d_l{x},
+        d_c{y}
 {
 
 }
 /**
- * @return la valeur de d_x
+ * @return la valeur de d_l
  */
-unsigned int Position::x()const
+unsigned int Position::l()const
 {
-    return d_x;
+    return d_l;
 }
 /**
- * @return la valeur de d_y
+ * @return la valeur de d_c
  */
-unsigned int Position::y()const
+unsigned int Position::c()const
 {
-    return d_y;
+    return d_c;
 }
 
 /**
- * Modifieur de d_x
+ * Modifieur de d_l
  * @param[in] x La valeur
  */
-void Position::x(unsigned int x)
+void Position::l(unsigned int x)
 {
     assert(x > 0);
-    d_x=x;
+    d_l=x;
 }
 
 /**
- * Modifieur de d_y
+ * Modifieur de d_c
  * @param[in] y La valeur
  */
-void Position::y(unsigned int y)
+void Position::c(unsigned int y)
 {
-    assert(y > 0);
-    d_y=y;
+    assert(y >= 0);
+    d_c=y;
 }
 
 /**
@@ -71,8 +71,8 @@ void Position::y(unsigned int y)
  */
 Position& Position::operator=(const Position& p){
     if (this != &p) {
-        d_x=p.d_x;
-        d_y=p.d_y;
+        d_l=p.d_l;
+        d_c=p.d_c;
     }
     return *this;
 }
@@ -84,7 +84,7 @@ Position& Position::operator=(const Position& p){
  */
 bool Position::operator==(const Position& p)const{
     if(this != &p){
-        return p.d_x==this->d_x && p.d_y== this->d_y;
+        return p.d_l==this->d_l && p.d_c== this->d_c;
     }
     return true;
 }
@@ -95,6 +95,46 @@ bool Position::operator==(const Position& p)const{
  * @return vrai si la position p.x et p.y sont supérieur à zero
  */
 bool static valide(const Position& p){
-    return p.x() >=0 && p.y()>=0;
+    return p.l() >=0 && p.c()>=0;
 }
 
+/**
+ * La representation textuel d'une position
+ * @return (x,y) en texte
+ */
+std::string Position::toString()const
+{
+    return "("+std::to_string(d_l)+","+std::to_string(d_c)+")";
+}
+
+
+Position Position::operator+(const Directions& direction)const{
+    switch (direction) {
+        case NORD:
+            return Position(d_l,d_c-1);
+            break;
+        case SUD:
+            return Position(d_l,d_c+1);
+            break;
+        case EST:
+            return Position(d_l+1,d_c);
+            break;
+        case OUEST:
+            return Position(d_l+1,d_c);;
+            break;
+        case NORD_EST:
+            return Position(d_l+1,d_c-1);
+            break;
+        case NORD_OUEST:
+            return Position(d_c-1,d_c-1);
+            break;
+        case SUD_EST:
+            return Position(d_l+1,d_c+1);
+            break;
+        case SUD_OUEST:
+            return Position(d_l-1,d_c+1);
+            break;
+        default:
+            return Position(d_l,d_c);
+    }
+}
