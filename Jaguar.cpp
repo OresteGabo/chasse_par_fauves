@@ -4,7 +4,7 @@
 
 #include "Jaguar.h"
 
-Jaguar::Jaguar(unsigned int vie, int puissanceAttaque) : Enemie(vie, puissanceAttaque) {}
+Jaguar::Jaguar() : Enemie(5, 45) {}
 
 void Jaguar::bouger(const Position &position) {
 
