@@ -11,7 +11,7 @@
 class Lion: public Enemie {
 
 public:
-    Lion(unsigned int vie, int puissanceAttaque);
+    Lion();
 
     void bouger(const Position &position) override;
 
@@ -19,13 +19,7 @@ public:
 
 };
 
-void Lion::bouger(const Position &position) {
 
-}
-
-unsigned int Lion::getType() const {
-    return LION;
-}
 
 
 #endif //CHASSE_PAR_FAUVES_LION_H
