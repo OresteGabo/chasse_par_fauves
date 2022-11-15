@@ -11,7 +11,7 @@
 class Piege : public Occupant{
 
 public:
-    Piege();
+    explicit Piege();
 
     unsigned int getType() const override;
 };

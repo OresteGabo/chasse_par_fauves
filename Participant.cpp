@@ -7,7 +7,7 @@
 
 void decrementer(const unsigned int& puissance);
 
-Participant::Participant(unsigned int vie) : vie(vie) {}
+Participant::Participant(unsigned int vie) : Occupant(),vie(vie) {}
 
 unsigned int Participant::getVie() const {
     return vie;

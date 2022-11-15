@@ -15,7 +15,7 @@ public:
 
     explicit Participant(unsigned int vie);
 
-    void decrementer(const unsigned int& puissance);
+
 
     unsigned int getVie() const;
 
@@ -23,7 +23,8 @@ public:
 
     //la methode bouger doit etre virtuel, car chaque participant doit buger a sa maniere
     virtual void bouger(const Position&)=0;
-    virtual unsigned int getType()const =0;
+    unsigned int getType()const override =0;
+
 
 };
 

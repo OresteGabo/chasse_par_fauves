@@ -8,4 +8,4 @@ unsigned int Piege::getType() const {
     return PIEGE;
 }
 
-Piege::Piege() {}
+Piege::Piege(): Occupant() {}
