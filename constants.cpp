@@ -2,14 +2,16 @@
 // Created by oreste on 09/11/22.
 //
 
+#include <iostream>
+using namespace std;
 enum Occupants{
     VIDE=0,
-    LION=1,
-    CHIEN=2,
-    JAGUAR=3,
-    PIEGE=4,
-    OBSTACLE=5,
-    JOUEUR=6
+    LION,
+    CHIEN,
+    JAGUAR,
+    PIEGE,
+    JOUEUR,
+    OBSTACLE,
 };
 
 enum Directions{
@@ -23,3 +25,4 @@ enum Directions{
     SUD_EST
 };
 const unsigned int TAILLE_MIN=6;
+
