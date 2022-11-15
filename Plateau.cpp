@@ -6,6 +6,8 @@
 #include <cassert>
 #include "Plateau.h"
 #include "Vide.h"
+#include "Joueur.h"
+#include "Lion.h"
 /*
 Plateau::Plateau(const unsigned int longeur,const unsigned int largeur ):
 d_longeur{longeur<TAILLE_MIN?TAILLE_MIN:longeur},
@@ -63,52 +65,78 @@ bool Plateau::jouable(const Position& position)const{
     //return valide(position) && evalCase(position).getType() != OBSTACLE ;
 }
 */
-
-Plateau::Plateau():
-Plateau(0,0)
+Plateau::Plateau(unsigned int lc,OccupantPtr *occupants):
+    Plateau(lc,lc,occupants){}
+Plateau::Plateau( OccupantPtr* occupants):
+    Plateau(TAILLE_MIN,TAILLE_MIN,occupants)
 {}
-Plateau::Plateau(unsigned int nl, unsigned int nc):
-d_nl{nl},
-d_nc{nc},
-position_joueur{Position(0,0)},
-
-d_tab{new unsigned int*[d_nl]},
-grille{new unsigned int[d_nl*d_nc]}
+Plateau::Plateau(unsigned int nl, unsigned int nc,OccupantPtr *occupants):
+    d_nl{nl},d_nc{nc},
+    position_joueur{Position(0,0)},
+    //occupants(occupants),
+    d_tab{new OccupantPtr *[d_nl]},
+    grille{new OccupantPtr [d_nl*d_nc]},joueur{new Joueur()}
 {
     for(int i = 0; i < d_nl; i++) {
-        d_tab[i] = (unsigned int *) VIDE;
+        ///TODO CORRECTION NEEDED
+        d_tab[i] = (OccupantPtr *) new Vide();
     }
-    int k = 0;
-    for(int l = 0; l < d_nl; l++) {
-        for(int c = 0; c < d_nc; c++){
-            if(position_joueur.l()==l && position_joueur.c()==c)
-                grille[k++]=JOUEUR;
-            else
-                grille[k++]=CHIEN;
+
+    for(int x = 0; x < d_nl*d_nc; x++) {
+        if (x == 0) {
+            grille[x] = new Joueur();
+            position_joueur = Position(0, 0);
+        } else {
+            grille[x] = occupants[x];
         }
     }
+
+    //for(int x=0;x<occupants.size();x++){
+        //Position pos=occupants[x]->position();
+        //grilleOc[d_nc*pos.l()+pos.c()]=occupants[x]->getType();
+    //}
 }
 Plateau::Plateau(const Plateau &t) :
     d_nl(t.d_nl),
     d_nc(t.d_nc),
-    grille(new unsigned int[d_nl*d_nc]),
-    d_tab(new unsigned int*[d_nl])
+    //grille(new unsigned int[d_nl*d_nc]),
+    //d_tab(new unsigned int*[d_nl]),
+    d_tab(new OccupantPtr * [d_nl]),
+    grille(new OccupantPtr[d_nl*d_nc])
 {
     for(unsigned int l = 0; l < d_nl; l++) {
+        //d_tab[l] = grille+l*d_nc;
         d_tab[l] = grille+l*d_nc;
     }
     for(unsigned int i = 0; i < d_nl*d_nc; i++){
-        grille[i] = t.grille[i];
+        //grille[i] = t.grille[i];
+        grille[i]=t.grille[i];
     }
+    //grilleOc.resize(t.occupants.size());
+   // for(int x=0;x<t.occupants.size();x++){
+       // occupants[x]=new Participant(t.occupants[x].position());
+    ///}
 }
 
 
-Plateau::Plateau(unsigned int lc):
-Plateau(lc,lc)
-{
-
-}
 Plateau::~Plateau() { delete[] d_tab; delete[] grille; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Pour dupliquer un autre tableau
 Plateau& Plateau::operator=(const Plateau& t) {
 
@@ -122,7 +150,7 @@ Plateau& Plateau::operator=(const Plateau& t) {
             for(int i = 0; i < d_nl*d_nc; i++){
                 grille[i] = t.grille[i];
             }
-            delete[] d_tab; d_tab = new unsigned int*[d_nl];
+            delete[] d_tab; d_tab = new OccupantPtr*[d_nl];
             for(int l = 0; l < d_nl; l++){
                 d_tab[l] = grille+l*d_nc;
             }
@@ -132,8 +160,8 @@ Plateau& Plateau::operator=(const Plateau& t) {
             delete[] d_tab;
             d_nc = t.d_nc; // Les dimensions sont
             d_nl = t.d_nl; // les mêmes
-            grille = new unsigned int[d_nl*d_nc]; // Nouvelles allocations
-            d_tab = new unsigned int*[d_nl];
+            grille = new OccupantPtr[d_nl*d_nc]; // Nouvelles allocations
+            d_tab = new OccupantPtr*[d_nl];
             for(int i = 0; i < d_nl; i++) {
                 d_tab[i] = grille+i*d_nc; // Les départs de lignes
             }// Enfin, la recopie du tableau contigu
@@ -154,16 +182,16 @@ unsigned int Plateau::get_nc() const{
 ostream& operator<<(ostream& os,const Plateau& t);
 
 
-unsigned int* Plateau::operator[](unsigned int l) {
+OccupantPtr* Plateau::operator[](unsigned int l) {
     return d_tab[l];
 }
-const unsigned int* Plateau::operator[](unsigned int l) const {
+const OccupantPtr* Plateau::operator[](unsigned int l) const {
     return d_tab[l];
 }
-unsigned int& Plateau::operator()(unsigned int l, unsigned int c) {
+OccupantPtr& Plateau::operator()(unsigned int l, unsigned int c) {
     return grille[l*d_nc+c];
 }
-unsigned int Plateau::operator()(unsigned int l, unsigned int c) const {
+OccupantPtr Plateau::operator()(unsigned int l, unsigned int c) const {
     return grille[l*d_nc+c];
 }
 
@@ -182,16 +210,16 @@ char Plateau::getChar(unsigned int val) {
             return 'C';
         case 3:
             //JAGUAR
-            return 'J';
+            return 'G';
         case 4:
             //PIEGE
             return 'P';
         case 5:
             //OBSTACLE
-            return 'O';
+            return 'J';
         case 6:
             //JOUEUR
-            return 'J';
+            return 'O';
         default:
             return 'V';
     }
@@ -201,7 +229,7 @@ ostream& operator<<(ostream& os, const Plateau& t) {
     for(int i = 0; i < t.d_nl; i++) {
         for(int j = 0; j < t.d_nc; j++)
             // L’accès se fait par un simple indice
-            os << Plateau::getChar(t.grille[k++] )<< "\t";
+            os << Plateau::getChar(t.grille[k++]->getType() )<< "\t";
         os << std::endl;
     }
     return os;
@@ -211,12 +239,12 @@ void Plateau::afficher()const{
     for(int i = 0; i < d_nl; i++) {
         for(int j = 0; j < d_nc; j++)
             // L’accès se fait par un simple indice
-            std::cout << getChar(grille[k++]) << "\t";
+            std::cout << getChar(grille[k++]->getType()) << "\t";
         std::cout << std::endl;
     }
 }
 void Plateau::MAJ(){
-    grille[position_joueur.c()*position_joueur.l()+position_joueur.c()]=JOUEUR;
+    //grilleOc[position_joueur.c()*position_joueur.l()+position_joueur.c()]=JOUEUR;
 }
 
 void Plateau::bouger(const Directions& direction){
@@ -259,8 +287,11 @@ void Plateau::bouger(const Directions& direction){
 void Plateau::moveUp(){
     if(position_joueur.l()>0){
         Position inter=position_joueur;
-        grille[(position_joueur.l()-1)*d_nc+position_joueur.c()]=JOUEUR;
-        grille[inter.l()*d_nc+ inter.c()]=VIDE;
+        //Position nextPos=Position(position_joueur.l()-1,position_joueur.c());
+        //Occupant* p=fight();
+        //Occupant *oc=grilleOc[position_joueur];
+        grille[(position_joueur.l()-1)*d_nc+position_joueur.c()]=joueur;
+        grille[inter.l()*d_nc+ inter.c()]=new Vide();
         position_joueur.l(position_joueur.l()-1);
     }
 }
@@ -269,8 +300,9 @@ void Plateau::moveUp(){
 void Plateau::moveDown(){
     if(position_joueur.l()<d_nl-1){
         Position inter=position_joueur;
-        grille[(position_joueur.l()+1)*d_nc+position_joueur.c()]=JOUEUR;
-        grille[inter.l()*d_nc+ inter.c()]=VIDE;
+        Position nextPos=Position(position_joueur.l()+1,position_joueur.c());
+        grille[(position_joueur.l()+1)*d_nc+position_joueur.c()]=joueur;
+        grille[inter.l()*d_nc+ inter.c()]=new Vide();
         position_joueur.l(position_joueur.l()+1);
 
     }
@@ -279,8 +311,9 @@ void Plateau::moveDown(){
 void Plateau::moveLeft(){
     if(position_joueur.c()>0){
         Position inter=position_joueur;
-        grille[position_joueur.l()*d_nc+position_joueur.c()-1]=JOUEUR;
-        grille[inter.l()*d_nc+ inter.c()]=VIDE;
+        Position nextPos=Position(position_joueur.l(),position_joueur.c()-1);
+        grille[position_joueur.l()*d_nc+position_joueur.c()-1]=joueur;
+        grille[inter.l()*d_nc+ inter.c()]=new Vide();
         position_joueur.c(position_joueur.c()-1);
     }
 }
@@ -289,12 +322,24 @@ void Plateau::moveLeft(){
 void Plateau::moveRight(){
     if(position_joueur.c()<d_nc-1){
         Position inter=position_joueur;
-        grille[position_joueur.l()*d_nc+position_joueur.c()+1]=JOUEUR;
-        grille[inter.l()*d_nc+ inter.c()]=VIDE;
+        Position nextPos=Position(position_joueur.l(),position_joueur.c()+1);
+        grille[position_joueur.l()*d_nc+position_joueur.c()+1]=joueur;
+        grille[inter.l()*d_nc+ inter.c()]=new Vide();
         position_joueur.c(position_joueur.c()+1);
     }
 }
 
 
+Occupant& Plateau::fight(Participant& p1,Participant& p2){
 
+    if(p1.getVie()>p2.getVie()){
+        p1.setVie(p1.getVie()-p2.getVie());
+        return p1;
+    }else if(p1.getVie()>p2.getVie()){
+        p2.setVie(p2.getVie()-p1.getVie());
+        return p2;
+    }
+    p1.setVie(0);p2.setVie(0);
+    return p1;
+}
 
