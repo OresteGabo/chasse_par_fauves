@@ -14,6 +14,7 @@ class Joueur:public Participant {
 public:
 
     explicit Joueur(unsigned int vie);
+    explicit Joueur();
 
     void bouger(const Position &position) override;
 

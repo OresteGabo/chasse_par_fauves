@@ -6,6 +6,7 @@
 
 
 Joueur::Joueur(unsigned int vie) : Participant(vie) {}
+Joueur::Joueur() :Joueur (5) {}
 
 void Joueur::bouger(const Position &position) {
 
