@@ -10,7 +10,7 @@
 
 class Vide: public Occupant {
 public:
-    Vide();
+    explicit Vide();
 
     unsigned int getType() const override;
 

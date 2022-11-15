@@ -4,7 +4,7 @@
 
 #include "Vide.h"
 
-Vide::Vide() {}
+Vide::Vide(): Occupant() {}
 
 unsigned int Vide::getType() const {
     return VIDE;
