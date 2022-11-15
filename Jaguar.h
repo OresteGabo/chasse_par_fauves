@@ -10,7 +10,7 @@
 
 class Jaguar : public Enemie{
 public:
-    Jaguar(unsigned int vie, int puissanceAttaque);
+    Jaguar();
 
     void bouger(const Position &position) override;
 
