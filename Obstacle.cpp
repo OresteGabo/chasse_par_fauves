@@ -4,7 +4,7 @@
 
 #include "Obstacle.h"
 
-Obstacle::Obstacle() {}
+Obstacle::Obstacle(): Occupant() {}
 
 unsigned int Obstacle::getType() const {
     return OBSTACLE;
