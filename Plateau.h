@@ -68,6 +68,8 @@ public:
     void moveLeft();
     void moveRight();
 
+    void setJoueur(int l,int c);
+
 };
 
 

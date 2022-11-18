@@ -8,63 +8,7 @@
 #include "Vide.h"
 #include "Joueur.h"
 #include "Lion.h"
-/*
-Plateau::Plateau(const unsigned int longeur,const unsigned int largeur ):
-d_longeur{longeur<TAILLE_MIN?TAILLE_MIN:longeur},
-d_largeur{largeur<TAILLE_MIN?TAILLE_MIN:largeur}
-{
-    initialiser();
-}
-Plateau::Plateau(unsigned int l): Plateau(l<6?6:l,l<6?6:l){}
 
-Plateau::Plateau():Plateau{6}{}*/
-/*
-
-/**
- * Le pla
- *
-void Plateau::initialiser() {
-     grille= reinterpret_cast< Occupant **>(new int[d_largeur][d_longeur]);
-    for(int x=0;x<d_largeur;x++){
-        //grille[x]=new Occupant[d_longeur];
-        for(int y=0;y<d_longeur;y++){
-            //TODO on doit ajouter des occupants vide initialement
-            //grille[x].push_back(Occupant&);
-            //grille[x][y]=Occnew Vide();
-        }
-    }
-}
-
-
-/**
-    Accesseur d'une case du plateau
-    @param[in] p - un plateau
-    @return la valeaur en p de gr
-*
-const Occupant& Plateau::evalCase(const Position & p)const{
-    assert(p.x() > TAILLE_MIN and TAILLE_MIN <= p.y());
-    return grille[p.x()][p.y()];
-}
-
-/**
-    Modifieur d'une case du plateau
-    @param[in,out] p - la position
-    @param[in] valeur - nouvel occupant
-
-*
-void Plateau::fixerCase( const Position & p,  const Occupant& valeur){
-    if(p.valide() && jouable(p))
-   grille[p.x()][p.y()] = valeur;
-}
-
-
-
-bool Plateau::jouable(const Position& position)const{
-    return true;
-    //TODO
-    //return valide(position) && evalCase(position).getType() != OBSTACLE ;
-}
-*/
 Plateau::Plateau(unsigned int lc,OccupantPtr *occupants):
     Plateau(lc,lc,occupants){}
 Plateau::Plateau( OccupantPtr* occupants):
@@ -72,60 +16,49 @@ Plateau::Plateau( OccupantPtr* occupants):
 {}
 Plateau::Plateau(unsigned int nl, unsigned int nc,OccupantPtr *occupants):
     d_nl{nl},d_nc{nc},
-    position_joueur{Position(0,0)},
-    //occupants(occupants),
+    position_joueur{RAND_MAX,RAND_MAX},
     d_tab{new OccupantPtr *[d_nl]},
-    grille{new OccupantPtr [d_nl*d_nc]},joueur{new Joueur()}
+    grille{new OccupantPtr [d_nl*d_nc]},
+    joueur{nullptr}
 {
+
+    cout<<"La position du joueur est :"<<position_joueur.toString()<<endl;
     for(int i = 0; i < d_nl; i++) {
         ///TODO CORRECTION NEEDED
         d_tab[i] = (OccupantPtr *) new Vide();
     }
 
     for(int x = 0; x < d_nl*d_nc; x++) {
-        if (x == 0) {
-            grille[x] = new Joueur();
-            position_joueur = Position(0, 0);
-        } else {
-            grille[x] = occupants[x];
+        if (occupants[x]->getType()==JOUEUR) {
+            ///TODO to be replaced lmater with setJoueir function
+            joueur=(Joueur*)occupants[x];
+            position_joueur=Position(x/d_nc,x%d_nc);
         }
+        grille[x] = occupants[x];
     }
-
-    //for(int x=0;x<occupants.size();x++){
-        //Position pos=occupants[x]->position();
-        //grilleOc[d_nc*pos.l()+pos.c()]=occupants[x]->getType();
-    //}
+}
+void Plateau::setJoueur(int l,int c){
+    grille[(l*d_nc)+l]=joueur;
+    position_joueur=Position(l,c);
 }
 Plateau::Plateau(const Plateau &t) :
     d_nl(t.d_nl),
     d_nc(t.d_nc),
-    //grille(new unsigned int[d_nl*d_nc]),
-    //d_tab(new unsigned int*[d_nl]),
+    position_joueur(t.position_joueur),
     d_tab(new OccupantPtr * [d_nl]),
     grille(new OccupantPtr[d_nl*d_nc])
 {
     for(unsigned int l = 0; l < d_nl; l++) {
-        //d_tab[l] = grille+l*d_nc;
         d_tab[l] = grille+l*d_nc;
     }
     for(unsigned int i = 0; i < d_nl*d_nc; i++){
-        //grille[i] = t.grille[i];
         grille[i]=t.grille[i];
     }
-    //grilleOc.resize(t.occupants.size());
-   // for(int x=0;x<t.occupants.size();x++){
-       // occupants[x]=new Participant(t.occupants[x].position());
-    ///}
+
 }
 
 
 Plateau::~Plateau() { delete[] d_tab; delete[] grille; }
-
-
-
-
-
-
 
 
 
@@ -236,10 +169,10 @@ ostream& operator<<(ostream& os, const Plateau& t) {
 }
 void Plateau::afficher()const{
     int k = 0;
-    for(int i = 0; i < d_nl; i++) {
-        for(int j = 0; j < d_nc; j++)
-            // L’accès se fait par un simple indice
-            std::cout << getChar(grille[k++]->getType()) << "\t";
+    for(int l = 0; l < d_nl; l++) {
+        for(int c = 0; c < d_nc; c++)
+                std::cout << getChar(grille[k++]->getType()) << "\t";
+
         std::cout << std::endl;
     }
 }
@@ -282,50 +215,49 @@ void Plateau::bouger(const Directions& direction){
     }
 }
 
-
 ///DONE
 void Plateau::moveUp(){
     if(position_joueur.l()>0){
-        Position inter=position_joueur;
-        //Position nextPos=Position(position_joueur.l()-1,position_joueur.c());
-        //Occupant* p=fight();
-        //Occupant *oc=grilleOc[position_joueur];
-        grille[(position_joueur.l()-1)*d_nc+position_joueur.c()]=joueur;
-        grille[inter.l()*d_nc+ inter.c()]=new Vide();
-        position_joueur.l(position_joueur.l()-1);
+        cout<<"moveUp"<<endl<<"Before"<<position_joueur.toString();
+
+        swap(grille[(position_joueur.l()-1)*d_nc+position_joueur.c()],grille[(position_joueur.l())*d_nc+position_joueur.c()]);
+        position_joueur=Position(position_joueur.l()-1,position_joueur.c());
+        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
     }
 }
 
 ///DONE
 void Plateau::moveDown(){
     if(position_joueur.l()<d_nl-1){
-        Position inter=position_joueur;
-        Position nextPos=Position(position_joueur.l()+1,position_joueur.c());
-        grille[(position_joueur.l()+1)*d_nc+position_joueur.c()]=joueur;
-        grille[inter.l()*d_nc+ inter.c()]=new Vide();
-        position_joueur.l(position_joueur.l()+1);
+        cout<<"moveDown"<<endl<<"Before"<<position_joueur.toString();
+
+        swap(grille[(position_joueur.l()+1)*d_nc+position_joueur.c()],grille[(position_joueur.l())*d_nc+position_joueur.c()]);
+        position_joueur=Position(position_joueur.l()+1,position_joueur.c());
+
+        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
 
     }
 }
 ///DONE
 void Plateau::moveLeft(){
     if(position_joueur.c()>0){
-        Position inter=position_joueur;
-        Position nextPos=Position(position_joueur.l(),position_joueur.c()-1);
-        grille[position_joueur.l()*d_nc+position_joueur.c()-1]=joueur;
-        grille[inter.l()*d_nc+ inter.c()]=new Vide();
-        position_joueur.c(position_joueur.c()-1);
+        cout<<"moveLeft"<<endl<<"Before"<<position_joueur.toString();
+        swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[position_joueur.l()*d_nc+position_joueur.c()-1]);
+        position_joueur=Position(position_joueur.l(),position_joueur.c()-1);
+        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
     }
 }
 
 ///DONE
 void Plateau::moveRight(){
     if(position_joueur.c()<d_nc-1){
-        Position inter=position_joueur;
-        Position nextPos=Position(position_joueur.l(),position_joueur.c()+1);
-        grille[position_joueur.l()*d_nc+position_joueur.c()+1]=joueur;
-        grille[inter.l()*d_nc+ inter.c()]=new Vide();
-        position_joueur.c(position_joueur.c()+1);
+        cout<<"moveRight"<<endl<<"Before"<<position_joueur.toString();
+
+        swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[position_joueur.l()*d_nc+position_joueur.c()+1]);
+        position_joueur=Position(position_joueur.l(),position_joueur.c()+1);
+
+        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
+
     }
 }
 
