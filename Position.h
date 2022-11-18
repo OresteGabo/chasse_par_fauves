@@ -17,7 +17,7 @@ private:
 public:
     Position(unsigned int l,unsigned int c);
     explicit Position(unsigned int xy);
-    Position();
+    //Position();
 
     unsigned int l()const;
     unsigned int c()const;

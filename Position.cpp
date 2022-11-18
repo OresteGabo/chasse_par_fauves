@@ -8,7 +8,7 @@
 /**
  *  Le constructeur par défaut (0,0)
  */
-Position::Position():Position{0,0}{}
+//Position::Position():Position{0,0}{}
 
 /**
  * Constructeur d'affectation pour d_l,et d_c avec tous la meme valeur
