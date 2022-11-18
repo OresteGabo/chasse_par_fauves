@@ -13,11 +13,10 @@
 
 class Jeu {
 private:
-Joueur joueur;
 Plateau plateau;
 vector<Occupant*>occupants;
 public:
-    Jeu(const Joueur &joueur, const Plateau &plateau);
+    Jeu(const Plateau &plateau);
 
     void bouger(Participant& p,Directions& direction);
     void afficher()const;

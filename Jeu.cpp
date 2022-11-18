@@ -4,8 +4,8 @@
 
 #include "Jeu.h"
 
-Jeu::Jeu(const Joueur &joueur, const Plateau &plateau):
-joueur{joueur},plateau{plateau}{}
+Jeu::Jeu( const Plateau &plateau):
+plateau{plateau}{}
 void Jeu::bouger(Participant& p,Directions& direction){
     switch (direction) {
         case (SUD):
@@ -33,7 +33,7 @@ void Jeu::bouger(Participant& p,Directions& direction){
 void Jeu::lancer(){
     bool end=false;
     while(!end){
-        std::cout.flush();
+        //std::cout.flush();
         afficher();
         saisir();
         MAJ();
@@ -55,6 +55,7 @@ void Jeu::saisir(){
     unsigned int x;
     std::cin>>x;
     d=(Directions)x;
+    cout<<"Direction is "<<d<<endl;
     plateau.bouger(d);
 }
 
