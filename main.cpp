@@ -18,17 +18,24 @@ using namespace std;
 Occupant** getRandomOccupants(unsigned int nl,unsigned int nc){
     OccupantPtr *grille=new OccupantPtr [nl*nc];
     srand (time(NULL));
+    bool jPresent=false;
+    int pos=rand()%nl*nc;
     for(int x=0;x<nl*nc;x++){
         //random number between 1 and 5
-        int rd = rand() % 50 + 1;
-        if(rd==1 ){
-            grille[x]=new Lion();
-        }else if(rd==2){
-            grille[x]=new Obstacle();
-        }else if(rd==3){
-            grille[x]=new Piege();
+        if(x==pos && !jPresent){
+            grille[x]=new Joueur();
+            jPresent=true;
         }else{
-            grille[x]=new Vide();
+            int rd = rand() % 15 + 1;
+            if(rd==1 ){
+                grille[x]=new Lion();
+            }else if(rd==2){
+                grille[x]=new Obstacle();
+            }else if(rd==3){
+                grille[x]=new Piege();
+            }else{
+                grille[x]=new Vide();
+            }
         }
     }
     return grille;
@@ -38,26 +45,11 @@ Occupant** getRandomOccupants(unsigned int nl,unsigned int nc){
 
 
 int main() {
-    Joueur joueur=Joueur();
-    //Lion* lion=new Lion(Position(2,2));
+   Joueur joueur=Joueur();
 
-    Plateau plateau= Plateau(25,getRandomOccupants(25,25));
-    Jeu *jeu=new Jeu(joueur,plateau);
+    Plateau plateau= Plateau(5,getRandomOccupants(5,5));
+    Jeu *jeu=new Jeu(plateau);
     jeu->lancer();
 
-    //p(2,4)=JAGUAR;
-    //cout<<endl<<p;
-    /*Position ps=Position (5);
-    Joueur joueur=Joueur();
-    Jeu jeu=Jeu(joueur,p);
-    jeu.jouer();
-
-   p.fixerCase(ps,joueur);*/
-    //p.afficher();
-    //jeu->lancer();
-    std::cout<<"Hello jam"<<std::endl;
-//
-  //  delete jeu;
-
-    return 0;
+   return 0;
 }
