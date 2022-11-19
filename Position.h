@@ -8,6 +8,7 @@
 #include <cassert>
 #include<string>
 #include"constants.cpp"
+#include <cmath>
 
 class Position {
 private:
@@ -28,6 +29,8 @@ public:
     bool operator==(const Position& )const;
     bool static valide(){return true;}
     std::string toString()const;
+
+    double distance(const Position&)const;
 
     Position operator+(const Directions& direction)const;
 

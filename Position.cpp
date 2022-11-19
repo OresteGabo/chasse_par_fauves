@@ -138,3 +138,16 @@ Position Position::operator+(const Directions& direction)const{
             return Position(d_l,d_c);
     }
 }
+
+/**
+ * calcule la distance entre 2 points
+ * @param p point de comparaison
+ * @return la distance
+ */
+double Position::distance(const Position& p)const{
+    return sqrt(
+            (p.l() - d_l)*(p.l()-d_l)
+            +
+             (p.c() - d_c)*(p.c()-d_c)
+    );
+}
