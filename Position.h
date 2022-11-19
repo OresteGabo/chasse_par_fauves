@@ -31,6 +31,7 @@ public:
     std::string toString()const;
 
     double distance(const Position&)const;
+    Position plusProche(const Position& p)const;
 
     Position operator+(const Directions& direction)const;
 

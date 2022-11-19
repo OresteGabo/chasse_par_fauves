@@ -2,6 +2,7 @@
 // Created by oreste on 09/11/22.
 //
 
+#include <vector>
 #include "Position.h"
 
 
@@ -150,4 +151,34 @@ double Position::distance(const Position& p)const{
             +
              (p.c() - d_c)*(p.c()-d_c)
     );
+}
+
+
+/**
+ * La position la plus proche pour se rapprocher d'un pas
+ * @param p
+ * @return
+ */
+Position Position::plusProche(const Position& p)const{
+
+    vector<Position> v{
+            Position(p.d_l+1,p.d_c),
+            Position(p.d_l-1,p.d_c),
+            Position(p.d_l,p.d_c+1),
+            Position(p.d_l,p.d_c-1),
+            Position(p.d_l+1,p.d_c+1),
+            Position(p.d_l-1,p.d_c-1),
+            Position(p.d_l+1,p.d_c-1),
+            Position(p.d_l-1,p.d_c+1),
+    };
+
+    double dis= RAND_MAX;
+    Position* pos;
+    for(auto & x : v){
+        if(distance(x) < dis){
+            dis=distance(p);
+            pos=&x;
+        }
+    }
+    return *pos;
 }
