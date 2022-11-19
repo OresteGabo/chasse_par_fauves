@@ -22,10 +22,12 @@ Plateau::Plateau(unsigned int nl, unsigned int nc,OccupantPtr *occupants):
     joueur{nullptr}
 {
 
-    cout<<"La position du joueur est :"<<position_joueur.toString()<<endl;
+    for(unsigned int x=0;x<d_nc*d_nl;x++){
+        grille[x]=occupants[x];
+    }
+
     for(int i = 0; i < d_nl; i++) {
-        ///TODO CORRECTION NEEDED
-        d_tab[i] = (OccupantPtr *) new Vide();
+        d_tab[i] = grille+i*d_nc;
     }
 
     for(int x = 0; x < d_nl*d_nc; x++) {
@@ -35,6 +37,12 @@ Plateau::Plateau(unsigned int nl, unsigned int nc,OccupantPtr *occupants):
             position_joueur=Position(x/d_nc,x%d_nc);
         }
         grille[x] = occupants[x];
+    }
+
+    //Au cas ou il n' y a pas de joueurs, on le met à la position zero
+    if(joueur==nullptr){
+        joueur=(Joueur*)occupants[0];
+        position_joueur=Position(0,0);
     }
 }
 void Plateau::setJoueur(int l,int c){
@@ -54,7 +62,6 @@ Plateau::Plateau(const Plateau &t) :
     for(unsigned int i = 0; i < d_nl*d_nc; i++){
         grille[i]=t.grille[i];
     }
-
 }
 
 
@@ -298,18 +305,7 @@ void Plateau::moveDownLeft(){
 }
 
 
+void Plateau::fight(Participant& p1,Participant& p2){
 
-
-Occupant& Plateau::fight(Participant& p1,Participant& p2){
-
-    if(p1.getVie()>p2.getVie()){
-        p1.setVie(p1.getVie()-p2.getVie());
-        return p1;
-    }else if(p1.getVie()>p2.getVie()){
-        p2.setVie(p2.getVie()-p1.getVie());
-        return p2;
-    }
-    p1.setVie(0);p2.setVie(0);
-    return p1;
 }
 

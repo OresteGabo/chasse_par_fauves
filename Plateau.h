@@ -60,7 +60,7 @@ public:
     static char getChar( unsigned int);
 
     void bouger(const Directions& direction);
-    static Occupant& fight(Participant& p1,Participant& p2);
+    static void fight(Participant& p1,Participant& p2);
 
     //movements
     void moveUp();
