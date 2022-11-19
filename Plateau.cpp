@@ -213,64 +213,87 @@ void Plateau::bouger(const Directions& direction){
 
 ///DONE
 void Plateau::moveUp(){
-    if(position_joueur.l()>0){
-        cout<<"moveUp"<<endl<<"Before"<<position_joueur.toString();
-
+    if(position_joueur.l()>0 &&
+    grille[(position_joueur.l()-1)*d_nc+position_joueur.c()]->getType()==VIDE){
         swap(grille[(position_joueur.l()-1)*d_nc+position_joueur.c()],grille[(position_joueur.l())*d_nc+position_joueur.c()]);
         position_joueur=Position(position_joueur.l()-1,position_joueur.c());
-        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 
+
 ///DONE
 void Plateau::moveDown(){
-    if(position_joueur.l()<d_nl-1){
-        cout<<"moveDown"<<endl<<"Before"<<position_joueur.toString();
-
-        swap(grille[(position_joueur.l()+1)*d_nc+position_joueur.c()],grille[(position_joueur.l())*d_nc+position_joueur.c()]);
+    if(position_joueur.l()<d_nl-1 &&
+            grille[(position_joueur.l()+1)*d_nc+position_joueur.c()]->getType()==VIDE
+    ){
+        swap(grille[(position_joueur.l())*d_nc+position_joueur.c()],grille[(position_joueur.l()+1)*d_nc+position_joueur.c()]);
         position_joueur=Position(position_joueur.l()+1,position_joueur.c());
-
-        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
-
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 ///DONE
 void Plateau::moveLeft(){
-    if(position_joueur.c()>0){
+    if(position_joueur.c()>0 &&
+    grille[position_joueur.l()*d_nc+position_joueur.c()-1]->getType()==VIDE){
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[position_joueur.l()*d_nc+position_joueur.c()-1]);
         position_joueur=Position(position_joueur.l(),position_joueur.c()-1);
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 
 ///DONE
 void Plateau::moveRight(){
-    if(position_joueur.c()<d_nc-1){
+    if(position_joueur.c()<d_nc-1 &&
+            grille[position_joueur.l()*d_nc+position_joueur.c()+1]->getType()==VIDE
+    ){
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[position_joueur.l()*d_nc+position_joueur.c()+1]);
         position_joueur=Position(position_joueur.l(),position_joueur.c()+1);
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 void Plateau::moveUpRight(){
-    if(position_joueur.l()>0  && position_joueur.c()<d_nc-1){
+    if(position_joueur.l()>0  && position_joueur.c()<d_nc-1 &&
+            grille[(position_joueur.l()-1)*d_nc+(position_joueur.c()+1)]->getType()==VIDE
+    ){
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()-1)*d_nc+(position_joueur.c()+1)]);
         position_joueur=Position(position_joueur.l()-1,position_joueur.c()+1);
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 void Plateau::moveUpLeft(){
-    if(position_joueur.l()>0  && position_joueur.c()>0){
+    if(position_joueur.l()>0  && position_joueur.c()>0 &&
+            grille[(position_joueur.l()-1)*d_nc+(position_joueur.c()-1)]->getType()==VIDE
+    ){
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()-1)*d_nc+(position_joueur.c()-1)]);
         position_joueur=Position(position_joueur.l()-1,position_joueur.c()-1);
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 void Plateau::moveDownRight(){
-    if(position_joueur.l()<d_nl-1  && position_joueur.c()<d_nc-1){
+    if(position_joueur.l()<d_nl-1  && position_joueur.c()<d_nc-1
+    && grille[(position_joueur.l()+1)*d_nc+(position_joueur.c()+1)]->getType()==VIDE
+    ){
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()+1)*d_nc+(position_joueur.c()+1)]);
         position_joueur=Position(position_joueur.l()+1,position_joueur.c()+1);
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 void Plateau::moveDownLeft(){
-    if(position_joueur.l()<d_nl-1  &&  position_joueur.c()>0){
+    if(position_joueur.l()<d_nl-1  &&  position_joueur.c()>0 &&
+            grille[(position_joueur.l()+1)*d_nc+(position_joueur.c()-1)]->getType()==VIDE
+    ){
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()+1)*d_nc+(position_joueur.c()-1)]);
         position_joueur=Position(position_joueur.l()+1,position_joueur.c()-1);
+    }else{
+        cout<<"DESINATION IMPOSSIBLE"<<endl;
     }
 }
 
