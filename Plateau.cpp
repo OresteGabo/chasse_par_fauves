@@ -195,20 +195,16 @@ void Plateau::bouger(const Directions& direction){
             moveUp();
             break;
         case(NORD_EST):
-            moveRight();
-            moveUp();
+            moveUpRight();
             break;
         case(NORD_OUEST):
-            moveLeft();
-            moveUp();
+            moveUpLeft();
             break;
         case (SUD_EST):
-            moveDown();
-            moveRight();
+            moveDownRight();
             break;
         case(SUD_OUEST):
-            moveLeft();
-            moveDown();
+            moveDownLeft();
             break;
         default:
             break;
@@ -241,25 +237,44 @@ void Plateau::moveDown(){
 ///DONE
 void Plateau::moveLeft(){
     if(position_joueur.c()>0){
-        cout<<"moveLeft"<<endl<<"Before"<<position_joueur.toString();
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[position_joueur.l()*d_nc+position_joueur.c()-1]);
         position_joueur=Position(position_joueur.l(),position_joueur.c()-1);
-        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
     }
 }
 
 ///DONE
 void Plateau::moveRight(){
     if(position_joueur.c()<d_nc-1){
-        cout<<"moveRight"<<endl<<"Before"<<position_joueur.toString();
-
         swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[position_joueur.l()*d_nc+position_joueur.c()+1]);
         position_joueur=Position(position_joueur.l(),position_joueur.c()+1);
-
-        cout<<"     After"<<position_joueur.toString()<<endl<<endl;
-
     }
 }
+void Plateau::moveUpRight(){
+    if(position_joueur.l()>0  && position_joueur.c()<d_nc-1){
+        swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()-1)*d_nc+(position_joueur.c()+1)]);
+        position_joueur=Position(position_joueur.l()-1,position_joueur.c()+1);
+    }
+}
+void Plateau::moveUpLeft(){
+    if(position_joueur.l()>0  && position_joueur.c()>0){
+        swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()-1)*d_nc+(position_joueur.c()-1)]);
+        position_joueur=Position(position_joueur.l()-1,position_joueur.c()-1);
+    }
+}
+void Plateau::moveDownRight(){
+    if(position_joueur.l()<d_nl-1  && position_joueur.c()<d_nc-1){
+        swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()+1)*d_nc+(position_joueur.c()+1)]);
+        position_joueur=Position(position_joueur.l()+1,position_joueur.c()+1);
+    }
+}
+void Plateau::moveDownLeft(){
+    if(position_joueur.l()<d_nl-1  &&  position_joueur.c()>0){
+        swap(grille[position_joueur.l()*d_nc+position_joueur.c()],grille[(position_joueur.l()+1)*d_nc+(position_joueur.c()-1)]);
+        position_joueur=Position(position_joueur.l()+1,position_joueur.c()-1);
+    }
+}
+
+
 
 
 Occupant& Plateau::fight(Participant& p1,Participant& p2){

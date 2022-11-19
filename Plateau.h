@@ -67,6 +67,10 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
+    void moveUpRight();
+    void moveUpLeft();
+    void moveDownRight();
+    void moveDownLeft();
 
     void setJoueur(int l,int c);
 
